@@ -1,0 +1,31 @@
+<html>
+  <body>
+    <div id="div1">I am div</div>
+
+    <div id="result">You will see event here</div>
+    <script>
+        const div1 = document.getElementById('div1');
+        const result = document.getElementById('result');
+        div1.style.border = '1px solid black';
+        div1.style.display = 'inline-block';
+        div1.style.padding = '10px';
+        div1.style.cursor = 'pointer';
+
+        div1.addEventListener('click', () => {
+            console.log('Clicked');
+            result.innerText = 'Clicked';
+        });
+        
+        div1.addEventListener('mouseenter', () => {
+            console.log('Mouse entered');
+            result.innerText = 'Mouse entered';
+        });
+        
+        div1.addEventListener('mouseleave', () => {
+            console.log('Mouse leave');
+            result.innerText = 'Mouse leave';
+        });
+
+    </script>
+  </body>
+</html>

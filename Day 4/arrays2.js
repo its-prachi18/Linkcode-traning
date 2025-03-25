@@ -17,7 +17,7 @@ const str2 = "Full stack developer with genAI";
 const reversed = str2.trim().split(" ").reverse().join(" ");
 console.log(reversed);
 
-// Array destructuring:-
+// Array Structuring:-
 console.log('\n -Array Structuring-');
 const [c, d] = [10, 20];
 console.log('\nExample 1:',c);
@@ -31,7 +31,7 @@ const hello=()=>{
 const [a, b] = [10, hello]
 console.log('\nExample 3:',b);
 
-// Array Destructuring
+// Array Destructuring:-
 console.log('\n -Array Destructuring-');
 const {firstName,lastName} = { firstName: 'Hello', lastName: 'World'}; 
 console.log(firstName);
