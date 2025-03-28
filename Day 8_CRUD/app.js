@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 let users = [
-    { id: 1, name: 'sam' }
+    { id: 1, name: 'Prachi' }
 ];
 
 app.get('/users', (req, res) => {
