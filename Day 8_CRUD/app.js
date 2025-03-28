@@ -1,45 +1,61 @@
 const express = require('express');
 const app = express();
+const port = 3000;
 
 app.use(express.json());
 
-let users = [
-    { id: 1, name: 'Prachi' }
-];
+let tasks = [];
 
-app.get('/users', (req, res) => {
-    res.json(users);
-
+// GET all tasks
+app.get('/tasks', (req, res) => {
+    res.status(200).json({ tasks });
 });
 
+// POST a new task
+app.post('/task', (req, res) => {
+    const { newTask } = req.body;
+    if (!newTask) {
+        return res.status(400).json({ msg: "Task name is required" });
+    }
 
-app.post('/users', (req, res) => {
-    const newUser = req.body;
-    users.push(newUser);
-    res.status(201).json({ message: 'user added', user: newUser });
+    const task = {
+        id: tasks.length + 1,  // Generate task ID
+        name: newTask
+    };
+
+    tasks.push(task);
+    res.status(201).json({ msg: "Task added successfully", task });
 });
 
+// DELETE a task by ID
+app.delete('/task/:id', (req, res) => {
+    const taskId = parseInt(req.params.id); // Convert to number
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
 
-app.put('/users/:id', (req, res) => {
+    if (taskIndex === -1) {
+        return res.status(404).json({ msg: "Task not found" });
+    }
 
-    const userId = parseInt(req.params.id);
-    const updatedUser = req.body;
-
-    users = users.map(user =>
-
-        user.id === userId ? { ...user, ...updatedUser } : user);
-    res.json({ message: 'User updated', users });
+    tasks.splice(taskIndex, 1);
+    res.status(200).json({ msg: "Task deleted successfully" });
 });
 
+// PUT a task by ID
+app.put('/task/:id', (req, res) => {
+    const taskId = parseInt(req.params.id);
+    const { task: updatedTaskName } = req.body;
 
-app.delete('/users/:id', (req, res) => {
-    const useerId = parseInt(req.params.id);
-    user = users.filter(user => user.id !== useerId);
-    res.json({ message: 'user deleted ', user });
+    const task = tasks.find(task => task.id === taskId);
 
+    if (!task) {
+        return res.status(404).json({ msg: "Task not found" });
+    }
+
+    task.name = updatedTaskName; // Update task name
+    res.status(200).json({ msg: "Task updated successfully", task });
 });
 
-
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
