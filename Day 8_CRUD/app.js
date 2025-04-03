@@ -43,7 +43,11 @@ app.delete('/task/:id', (req, res) => {
 // PUT a task by ID
 app.put('/task/:id', (req, res) => {
     const taskId = parseInt(req.params.id);
-    const { task: updatedTaskName } = req.body;
+    const { name } = req.body;  // Ensure request body contains 'name'
+
+    if (!name) {
+        return res.status(400).json({ msg: "Task name is required" });
+    }
 
     const task = tasks.find(task => task.id === taskId);
 
@@ -51,9 +55,11 @@ app.put('/task/:id', (req, res) => {
         return res.status(404).json({ msg: "Task not found" });
     }
 
-    task.name = updatedTaskName; // Update task name
+    task.name = name; // Update task name correctly
+
     res.status(200).json({ msg: "Task updated successfully", task });
 });
+
 
 // Start the server
 app.listen(port, () => {
